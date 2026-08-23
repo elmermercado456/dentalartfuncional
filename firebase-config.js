@@ -15,7 +15,9 @@ const firebaseConfig = {
 // Indica si Firebase está listo para usarse. 
 // Si mantienes "TU_API_KEY" o la dejas vacía, la aplicación usará de forma automática 
 // el backend local (server.js/app.py) o LocalStorage.
-window.useFirebase = firebaseConfig.apiKey && firebaseConfig.apiKey !== "TU_API_KEY";
+// Forzamos el uso de LocalStorage desactivando Firebase temporalmente
+// ya que parece haber problemas de permisos con la base de datos.
+window.useFirebase = false;
 
 if (window.useFirebase) {
     firebase.initializeApp(firebaseConfig);
