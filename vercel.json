@@ -1,8 +1,5 @@
 {
   "buildCommand": "echo 'No build step'",
   "outputDirectory": ".",
-  "routes": [
-    { "handle": "filesystem" },
-    { "src": "/(.*)", "dest": "/index.html" }
-  ]
+  "cleanUrls": true
 }
