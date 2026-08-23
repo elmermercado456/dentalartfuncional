@@ -2,7 +2,6 @@
   "name": "dashboard-odontologo",
   "version": "1.0.0",
   "description": "Dashboard diario para odontólogo independiente",
-  "main": "index.html",
   "scripts": {
     "build": "echo 'No build step'"
   },
