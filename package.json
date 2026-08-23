@@ -1,8 +1,0 @@
-{
-  "name": "dashboard-odontologo",
-  "version": "1.0.0",
-  "description": "Dashboard diario para odontólogo independiente",
-  "scripts": {
-    "build": "echo 'No build step'"
-  }
-}
