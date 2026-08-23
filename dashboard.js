@@ -8,72 +8,9 @@ const notifiedAppointments = new Set();
 const notifiedEnSala = new Set();
 let isFirstLoad = true;
 
-// Default Fallback Mock Data
-const defaultAppointments = [
-    {
-        id: 1,
-        time: '08:30 AM',
-        patient: 'Carlos Mendoza',
-        treatment: 'Profilaxis Dental',
-        status: 'completado',
-        notes: 'Paciente con ligera sensibilidad en encías.'
-    },
-    {
-        id: 2,
-        time: '10:00 AM',
-        patient: 'María Delgado',
-        treatment: 'Tratamiento de Endodoncia',
-        status: 'en-sala',
-        notes: 'Segunda sesión conducto premolar superior.'
-    },
-    {
-        id: 3,
-        time: '11:30 AM',
-        patient: 'Andrés Gutiérrez',
-        treatment: 'Resina Estética Estructural',
-        status: 'pendiente',
-        notes: 'Requiere anestesia local.'
-    },
-    {
-        id: 4,
-        time: '02:30 PM',
-        patient: 'Sofía Vega',
-        treatment: 'Blanqueamiento Led',
-        status: 'pendiente',
-        notes: 'Tomar fotos de color previo.'
-    },
-    {
-        id: 5,
-        time: '04:30 PM',
-        patient: 'Jorge Ramírez',
-        treatment: 'Extracción Tercer Molar',
-        status: 'pendiente',
-        notes: 'Trae radiografía panorámica impresa.'
-    }
-];
+const defaultAppointments = [];
 
-const defaultTasks = [
-    {
-        id: 1,
-        text: 'Llamar al laboratorio dental por corona de la Sra. Torres',
-        completed: true
-    },
-    {
-        id: 2,
-        text: 'Hacer pedido mensual de anestesia lidocaína y agujas cortas',
-        completed: false
-    },
-    {
-        id: 3,
-        text: 'Revisar facturación electrónica de la primera quincena',
-        completed: false
-    },
-    {
-        id: 4,
-        text: 'Enviar presupuesto de implantes a Luis Gómez',
-        completed: false
-    }
-];
+const defaultTasks = [];
 
 // Initialize Dashboard
 document.addEventListener('DOMContentLoaded', async () => {
@@ -401,6 +338,8 @@ async function createAppointment(event) {
         if (res.ok) {
             const saved = await res.json();
             newAppt.id = saved.id;
+        } else {
+            throw new Error('API Error');
         }
     } catch (err) {
         console.warn("API offline. Cita guardada localmente.");
@@ -561,11 +500,12 @@ async function changeAppStatus(appId, newStatus) {
     if (index !== -1) {
         appointments[index].status = newStatus;
         try {
-            await fetch(`/api/appointments/${appId}`, {
+            const res = await fetch(`/api/appointments/${appId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ status: newStatus })
             });
+            if (!res.ok) throw new Error('API Error');
         } catch (err) {
             console.warn("API offline. Estado guardado localmente.");
             saveLocalState();
@@ -590,9 +530,10 @@ async function deleteAppointment(appId) {
 
     appointments = appointments.filter(app => app.id !== appId);
     try {
-        await fetch(`/api/appointments/${appId}`, {
+        const res = await fetch(`/api/appointments/${appId}`, {
             method: 'DELETE'
         });
+        if (!res.ok) throw new Error('API Error');
     } catch (err) {
         console.warn("API offline. Cita eliminada localmente.");
         saveLocalState();
@@ -787,6 +728,8 @@ async function addTask(event) {
         if (res.ok) {
             const saved = await res.json();
             newTask.id = saved.id;
+        } else {
+            throw new Error('API Error');
         }
     } catch (err) {
         console.warn("API offline. Tarea guardada localmente.");
@@ -814,11 +757,12 @@ async function toggleTask(taskId) {
 
         tasks[index].completed = targetCompleted;
         try {
-            await fetch(`/api/tasks/${taskId}`, {
+            const res = await fetch(`/api/tasks/${taskId}`, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ completed: tasks[index].completed })
             });
+            if (!res.ok) throw new Error('API Error');
         } catch (err) {
             console.warn("API offline. Cambio guardado localmente.");
             saveLocalState();
@@ -841,9 +785,10 @@ async function deleteTask(taskId) {
 
     tasks = tasks.filter(task => task.id !== taskId);
     try {
-        await fetch(`/api/tasks/${taskId}`, {
+        const res = await fetch(`/api/tasks/${taskId}`, {
             method: 'DELETE'
         });
+        if (!res.ok) throw new Error('API Error');
     } catch (err) {
         console.warn("API offline. Tarea eliminada localmente.");
         saveLocalState();
