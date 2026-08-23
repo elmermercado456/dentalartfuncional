@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Dashboard diario para odontólogo independiente",
   "scripts": {
-    "build": "echo 'No build step'"
+    "build": "mkdir -p public && cp index.html public/"
   },
   "dependencies": {
     "express": "^4.19.2"
