@@ -22,10 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Start notification checking interval (every 30 seconds)
     setInterval(checkUpcomingAppointments, 30000);
     
-    // Start polling updates if Firebase is not active (every 2 seconds)
-    if (!window.useFirebase) {
-        startPolling();
-    }
+    // (Removed startPolling call)
 });
 
 // Check browser notification permission status on load
@@ -195,28 +192,10 @@ async function loadInitialData() {
         return;
     }
 
-    try {
-        const appRes = await fetch('/api/appointments');
-        if (appRes.ok) {
-            appointments = await appRes.json();
-            sortAppointments();
-        } else {
-            throw new Error('API Error');
-        }
-
-        const taskRes = await fetch('/api/tasks');
-        if (taskRes.ok) {
-            tasks = await taskRes.json();
-        } else {
-            throw new Error('API Error');
-        }
-        console.log("🚀 Datos cargados exitosamente desde el servidor backend.");
-    } catch (err) {
-        console.warn("⚠️ Servidor backend no detectado o inalcanzable. Usando almacenamiento local o datos mock.");
-        appointments = JSON.parse(localStorage.getItem('dentist_appointments')) || defaultAppointments;
-        sortAppointments();
-        tasks = JSON.parse(localStorage.getItem('dentist_tasks')) || defaultTasks;
-    }
+    console.log("Cargando datos desde LocalStorage...");
+    appointments = JSON.parse(localStorage.getItem('dentist_appointments')) || defaultAppointments;
+    sortAppointments();
+    tasks = JSON.parse(localStorage.getItem('dentist_tasks')) || defaultTasks;
     
     // Initialize notification baseline on first load
     appointments.forEach(app => {
@@ -329,22 +308,7 @@ async function createAppointment(event) {
     appointments.push(newAppt);
     sortAppointments();
     
-    try {
-        const res = await fetch('/api/appointments', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newAppt)
-        });
-        if (res.ok) {
-            const saved = await res.json();
-            newAppt.id = saved.id;
-        } else {
-            throw new Error('API Error');
-        }
-    } catch (err) {
-        console.warn("API offline. Cita guardada localmente.");
-        saveLocalState();
-    }
+    saveLocalState();
     
     renderAppointments();
     updateCounters();
@@ -499,17 +463,7 @@ async function changeAppStatus(appId, newStatus) {
     const index = appointments.findIndex(app => app.id === appId);
     if (index !== -1) {
         appointments[index].status = newStatus;
-        try {
-            const res = await fetch(`/api/appointments/${appId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ status: newStatus })
-            });
-            if (!res.ok) throw new Error('API Error');
-        } catch (err) {
-            console.warn("API offline. Estado guardado localmente.");
-            saveLocalState();
-        }
+        saveLocalState();
         renderAppointments();
         updateCounters();
     }
@@ -529,50 +483,9 @@ async function deleteAppointment(appId) {
     }
 
     appointments = appointments.filter(app => app.id !== appId);
-    try {
-        const res = await fetch(`/api/appointments/${appId}`, {
-            method: 'DELETE'
-        });
-        if (!res.ok) throw new Error('API Error');
-    } catch (err) {
-        console.warn("API offline. Cita eliminada localmente.");
-        saveLocalState();
-    }
+    saveLocalState();
     renderAppointments();
     updateCounters();
-}
-
-// Start polling for updates (every 2 seconds)
-async function startPolling() {
-    setInterval(async () => {
-        try {
-            const appRes = await fetch('/api/appointments');
-            if (appRes.ok) {
-                const newAppointments = await appRes.json();
-                checkForCitaNotifications(newAppointments);
-                
-                // Compare and update if different
-                if (JSON.stringify(appointments) !== JSON.stringify(newAppointments)) {
-                    appointments = newAppointments;
-                    sortAppointments();
-                    renderAppointments();
-                    updateCounters();
-                }
-            }
-
-            const taskRes = await fetch('/api/tasks');
-            if (taskRes.ok) {
-                const newTasks = await taskRes.json();
-                if (JSON.stringify(tasks) !== JSON.stringify(newTasks)) {
-                    tasks = newTasks;
-                    renderTasks();
-                    updateCounters();
-                }
-            }
-        } catch (err) {
-            console.warn("Error de sincronización en tiempo real:", err);
-        }
-    }, 2000);
 }
 
 // Compare old and new appointments list to trigger notifications
@@ -719,22 +632,7 @@ async function addTask(event) {
     newTask.id = Date.now();
     tasks.push(newTask);
     
-    try {
-        const res = await fetch('/api/tasks', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(newTask)
-        });
-        if (res.ok) {
-            const saved = await res.json();
-            newTask.id = saved.id;
-        } else {
-            throw new Error('API Error');
-        }
-    } catch (err) {
-        console.warn("API offline. Tarea guardada localmente.");
-        saveLocalState();
-    }
+    saveLocalState();
     
     renderTasks();
     updateCounters();
@@ -756,17 +654,7 @@ async function toggleTask(taskId) {
         }
 
         tasks[index].completed = targetCompleted;
-        try {
-            const res = await fetch(`/api/tasks/${taskId}`, {
-                method: 'PUT',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ completed: tasks[index].completed })
-            });
-            if (!res.ok) throw new Error('API Error');
-        } catch (err) {
-            console.warn("API offline. Cambio guardado localmente.");
-            saveLocalState();
-        }
+        saveLocalState();
         renderTasks();
         updateCounters();
     }
@@ -784,15 +672,7 @@ async function deleteTask(taskId) {
     }
 
     tasks = tasks.filter(task => task.id !== taskId);
-    try {
-        const res = await fetch(`/api/tasks/${taskId}`, {
-            method: 'DELETE'
-        });
-        if (!res.ok) throw new Error('API Error');
-    } catch (err) {
-        console.warn("API offline. Tarea eliminada localmente.");
-        saveLocalState();
-    }
+    saveLocalState();
     renderTasks();
     updateCounters();
 }
