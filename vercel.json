@@ -1,5 +1,5 @@
 {
   "buildCommand": "echo 'No build step'",
-  "outputDirectory": ".",
+  "outputDirectory": "public",
   "cleanUrls": true
 }
