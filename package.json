@@ -1,0 +1,12 @@
+{
+  "name": "dashboard-odontologo",
+  "version": "1.0.0",
+  "description": "Dashboard diario para odontólogo independiente",
+  "main": "server.js",
+  "scripts": {
+    "build": "echo 'No build step'"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
