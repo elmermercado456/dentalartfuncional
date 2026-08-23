@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="es" class="h-full bg-slate-50">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dental Art Studio - Panel de Control</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dental: {
+                            teal: '#1A5F7A',      /* Azul-teca/verde azulado de los sillones */
+                            tealLight: '#EBF8FA',
+                            blue: '#1C69D4',      /* Azul del logo */
+                            blueLight: '#EFF6FF',
+                            coral: '#D13438',     /* Rojo coral del logo */
+                            coralLight: '#FEF2F2',
+                            dark: '#1E293B',
+                            slate: '#F8FAFC'
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* Custom scrollbar and interactive transitions */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8;
+        }
+        .timeline-line::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 19px;
+            width: 2px;
+            background: #e2e8f0;
+        }
+    </style>
+</head>
+<body class="h-full font-sans antialiased text-slate-800 flex flex-col">
+
+    <!-- Header Navigation -->
+    <header class="bg-white border-b border-slate-100 sticky top-0 z-50 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <!-- Logo & Brand -->
+                <div class="flex items-center space-x-3">
+                    <div class="w-10 h-10 rounded-xl bg-dental-tealLight flex items-center justify-center text-dental-teal border border-dental-tealLight/50">
+                        <i class="fa-solid fa-tooth text-xl"></i>
+                    </div>
+                    <div>
+                        <div class="flex items-center space-x-1">
+                            <span class="font-bold text-lg tracking-tight text-dental-teal">Dental Art</span>
+                            <span class="font-medium text-lg text-dental-blue">Studio</span>
+                        </div>
+                        <p class="text-[9px] font-semibold tracking-wider text-dental-coral uppercase -mt-1">Odontología & Estética</p>
+                    </div>
+                </div>
+
+                <!-- Doctor Profile -->
+                <div class="flex items-center space-x-3">
+                    <div class="hidden sm:block text-right">
+                        <span class="block text-xs text-slate-400">Sesión iniciada</span>
+                        <span class="block text-sm font-semibold text-slate-700">Dr. Carlos Burgos</span>
+                    </div>
+                    <div class="w-10 h-10 rounded-full bg-dental-teal text-white flex items-center justify-center font-bold ring-2 ring-dental-tealLight shadow-md">
+                        CB
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace -->
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col space-y-6">
+        
+        <!-- Welcome Hero Banner -->
+        <div class="bg-gradient-to-r from-dental-teal to-[#2b7c9e] rounded-2xl p-6 md:p-8 text-white shadow-xl relative overflow-hidden">
+            <!-- Decorative graphics to resemble modern UI -->
+            <div class="absolute right-0 top-0 w-64 h-64 bg-white/5 rounded-full -mr-16 -mt-16 blur-2xl pointer-events-none"></div>
+            <div class="absolute right-1/4 bottom-0 w-32 h-32 bg-white/10 rounded-full -mb-8 blur-xl pointer-events-none"></div>
+            
+            <div class="relative z-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                <div>
+                    <span class="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/20 text-white backdrop-blur-sm mb-3" id="current-date-badge">
+                        <i class="fa-regular fa-calendar-days mr-1.5"></i> Lunes, 15 de Junio, 2026
+                    </span>
+                    <h1 class="text-2xl md:text-3xl font-bold tracking-tight">¡Buen día, Dr. Carlos Burgos!</h1>
+                    <p class="text-dental-tealLight/90 mt-1 text-sm md:text-base">Tu clínica está lista para hoy. Repasemos la agenda del día.</p>
+                </div>
+                
+                <!-- Counters Cards -->
+                <div class="flex items-center gap-4 bg-white/10 p-4 rounded-xl backdrop-blur-md border border-white/10">
+                    <div class="text-center px-4 border-r border-white/20">
+                        <span class="block text-2xl font-bold" id="appointment-count">5</span>
+                        <span class="text-[11px] uppercase tracking-wider text-dental-tealLight">Citas hoy</span>
+                    </div>
+                    <div class="text-center px-4">
+                        <span class="block text-2xl font-bold" id="pending-tasks-count">3</span>
+                        <span class="text-[11px] uppercase tracking-wider text-dental-tealLight">Tareas Pendientes</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Dashboard Layout: 2 Columns -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+            
+            <!-- Left Side: Appointments Timeline (8 Column) -->
+            <section class="lg:col-span-7 xl:col-span-8 bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col">
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center">
+                            <i class="fa-solid fa-clock-rotate-left text-dental-teal mr-2"></i> Agenda del Día
+                        </h2>
+                        <p class="text-xs text-slate-400">Línea de tiempo de citas programadas (08:00 AM - 08:00 PM)</p>
+                    </div>
+                <div class="flex flex-col sm:flex-row gap-3 sm:items-center">
+                    <!-- Notification Permission Indicator -->
+                    <button id="notification-btn" onclick="requestNotificationPermission()" class="px-3 py-1.5 text-xs font-medium rounded-lg bg-dental-tealLight text-dental-teal hover:bg-dental-teal hover:text-white transition-all flex items-center gap-1.5">
+                        <i class="fa-regular fa-bell"></i> <span id="notification-btn-text">Activar Notificaciones</span>
+                    </button>
+                    <div class="flex gap-2 items-center">
+                        <div class="flex bg-slate-100 p-0.5 rounded-lg border border-slate-200/50">
+                            <button onclick="filterAppointments('pendiente')" class="px-3 py-1 text-xs font-medium rounded-md bg-dental-teal text-white shadow-sm transition-all" id="btn-filter-pendiente">Pendientes</button>
+                            <button onclick="filterAppointments('en-sala')" class="px-3 py-1 text-xs font-medium rounded-md text-slate-600 hover:text-slate-900 transition-all" id="btn-filter-en-sala">En Sala</button>
+                            <button onclick="filterAppointments('completado')" class="px-3 py-1 text-xs font-medium rounded-md text-slate-600 hover:text-slate-900 transition-all" id="btn-filter-completado">Completadas</button>
+                        </div>
+                        <button onclick="openApptModal()" class="bg-dental-teal hover:bg-[#154c62] text-white px-3 py-1.5 rounded-lg text-xs font-bold transition-all shadow-sm flex items-center gap-1">
+                            <i class="fa-solid fa-plus"></i> Nueva Cita
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Container -->
+            <div class="relative timeline-line pl-8 pr-2 py-2 max-h-[600px] overflow-y-auto space-y-4" id="timeline-container">
+                <!-- Appointments will be rendered here dynamically -->
+            </div>
+        </section>
+
+        <!-- Right Side: Operative Tasks (4 Column) -->
+        <section class="lg:col-span-5 xl:col-span-4 bg-white rounded-2xl border border-slate-100 shadow-sm p-6 flex flex-col">
+            <div class="flex justify-between items-center mb-4">
+                <div>
+                    <h2 class="text-lg font-bold text-slate-800 flex items-center">
+                        <i class="fa-solid fa-list-check text-dental-teal mr-2"></i> Tareas Operativas
+                    </h2>
+                    <p class="text-xs text-slate-400">Pendientes que no corresponden a pacientes</p>
+                </div>
+            </div>
+
+            <!-- Quick add task form -->
+            <form onsubmit="addTask(event)" class="mb-4 flex gap-2">
+                <input type="text" id="new-task-input" placeholder="Ej. Llamar al laboratorio dental..." required 
+                    class="flex-1 px-3 py-2 text-sm rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-dental-teal/30 focus:border-dental-teal transition-all">
+                <button type="submit" class="bg-dental-teal hover:bg-[#154c62] text-white p-2 rounded-xl flex items-center justify-center w-10 h-10 transition-colors shadow-sm">
+                    <i class="fa-solid fa-plus text-sm"></i>
+                </button>
+            </form>
+
+            <!-- Tasks Checklist Container -->
+            <div class="space-y-2.5 max-h-[380px] overflow-y-auto pr-1" id="tasks-container">
+                <!-- Tasks will be rendered here dynamically -->
+            </div>
+
+            <!-- Completed Tasks Accordion -->
+            <div class="mt-4 pt-4 border-t border-slate-100" id="completed-tasks-wrapper">
+                <details class="group">
+                    <summary class="flex justify-between items-center font-semibold text-xs text-slate-500 cursor-pointer select-none uppercase tracking-wider hover:text-slate-800 transition-colors">
+                        <span>Tareas Completadas (<span id="completed-tasks-count">0</span>)</span>
+                        <span class="transition group-open:rotate-180">
+                            <i class="fa-solid fa-chevron-down"></i>
+                        </span>
+                    </summary>
+                    <div class="space-y-2.5 mt-3 max-h-[200px] overflow-y-auto pr-1" id="completed-tasks-container">
+                        <!-- Completed tasks will be rendered here dynamically -->
+                    </div>
+                </details>
+            </div>
+
+            <!-- Empty State for Tasks -->
+            <div id="tasks-empty-state" class="hidden text-center py-8">
+                <div class="w-12 h-12 rounded-full bg-slate-50 flex items-center justify-center text-slate-300 mx-auto mb-2">
+                    <i class="fa-solid fa-circle-check text-xl"></i>
+                </div>
+                <p class="text-sm font-semibold text-slate-600">¡Todo al día!</p>
+                <p class="text-xs text-slate-400">No tienes tareas pendientes para hoy.</p>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- MODAL: PROGRAMAR NUEVA CITA -->
+<div id="appt-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center hidden opacity-0 transition-all duration-300">
+    <div class="bg-white w-full max-w-md rounded-2xl shadow-xl overflow-hidden transform scale-95 transition-all duration-300 mx-4">
+        <!-- Header -->
+        <div class="bg-dental-teal p-5 text-white flex justify-between items-center">
+            <div class="flex items-center gap-2">
+                <i class="fa-solid fa-calendar-plus text-lg"></i>
+                <h3 class="font-bold text-lg">Programar Nueva Cita</h3>
+            </div>
+            <button onclick="closeApptModal()" class="text-white/80 hover:text-white transition-all text-xl">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+        <!-- Form -->
+        <form id="appt-form" onsubmit="createAppointment(event)" class="p-6 space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Nombre del Paciente</label>
+                <input type="text" id="appt-patient" required placeholder="Ej. Carlos Mendoza" class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-dental-teal/30 focus:border-dental-teal transition-all">
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Hora de la Cita</label>
+                    <input type="time" id="appt-time" required class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2.5 focus:outline-none focus:ring-2 focus:ring-dental-teal/30 focus:border-dental-teal transition-all">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Estado</label>
+                    <select id="appt-status" required class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-dental-teal/30 focus:border-dental-teal transition-all">
+                        <option value="pendiente">Pendiente</option>
+                        <option value="en-sala">En Sala</option>
+                        <option value="completado">Completado</option>
+                    </select>
+                </div>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Tratamiento</label>
+                <select id="appt-treatment" required class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-dental-teal/30 focus:border-dental-teal transition-all">
+                    <option value="Profilaxis Dental">Profilaxis Dental</option>
+                    <option value="Tratamiento de Endodoncia">Tratamiento de Endodoncia</option>
+                    <option value="Resina Estética Estructural">Resina Estética Estructural</option>
+                    <option value="Blanqueamiento Led">Blanqueamiento Led</option>
+                    <option value="Extracción Tercer Molar">Extracción Tercer Molar</option>
+                    <option value="Evaluación General">Evaluación General</option>
+                </select>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Notas Clínicas</label>
+                <textarea id="appt-notes" rows="2" placeholder="Ej. Requiere anestesia local..." class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-3.5 py-2 focus:outline-none focus:ring-2 focus:ring-dental-teal/30 focus:border-dental-teal transition-all"></textarea>
+            </div>
+            <div class="flex space-x-3 pt-3 border-t border-slate-100">
+                <button type="button" onclick="closeApptModal()" class="flex-1 py-2.5 border border-slate-200 text-slate-600 rounded-xl text-sm font-medium hover:bg-slate-50 transition-all">Cancelar</button>
+                <button type="submit" class="flex-1 py-2.5 bg-dental-teal hover:bg-[#154c62] text-white rounded-xl text-sm font-semibold shadow-md transition-all">Programar</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-4 mt-auto">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-slate-400">
+            &copy; 2026 Dental Art Studio. Diseñado con excelencia y cuidado médico.
+        </div>
+    </footer>
+
+    <!-- Firebase SDK (Compatibility version) -->
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Firebase Config -->
+    <script src="firebase-config.js"></script>
+    <!-- App Logic Script -->
+    <script src="dashboard.js"></script>
+</body>
+</html>
