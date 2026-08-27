@@ -243,10 +243,8 @@
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-500 uppercase tracking-wider mb-1">Estado</label>
-                    <select id="appt-status" required class="w-full text-sm bg-slate-50 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none focus:ring-2 focus:ring-dental-teal/30 focus:border-dental-teal transition-all">
-                        <option value="pendiente">Pendiente</option>
-                        <option value="en-sala">En Sala</option>
-                        <option value="completado">Completado</option>
+                    <select id="appt-status" required disabled class="w-full text-sm bg-slate-100 text-slate-400 border border-slate-200 rounded-xl px-3 py-2.5 focus:outline-none transition-all cursor-not-allowed">
+                        <option value="pendiente">Pendiente (Automático)</option>
                     </select>
                 </div>
             </div>
@@ -445,11 +443,13 @@ function checkUpcomingAppointments() {
     const strHours = hours < 10 ? '0'+hours : hours;
     
     const currentTimeStr = `${strHours}:${strMinutes} ${ampm}`;
+    const currentMinutes = convertTimeToMinutes(currentTimeStr);
     
     appointments.forEach(app => {
         // Only notify for pending or en-sala appointments, and avoid repeating
         if (app.status !== 'completado' && !notifiedAppointments.has(app.id)) {
-            if (app.time === currentTimeStr) {
+            const appMinutes = convertTimeToMinutes(app.time);
+            if (currentMinutes >= appMinutes) {
                 // Auto-transition to "en-sala" if it was "pendiente"
                 if (app.status === 'pendiente') {
                     changeAppStatus(app.id, 'en-sala');
@@ -599,7 +599,7 @@ async function createAppointment(event) {
     const patient = document.getElementById('appt-patient').value.trim();
     const timeRaw = document.getElementById('appt-time').value;
     const time = convert24hTo12h(timeRaw);
-    const status = document.getElementById('appt-status').value;
+    const status = 'pendiente';
     const treatment = document.getElementById('appt-treatment').value;
     const notes = document.getElementById('appt-notes').value.trim();
     
