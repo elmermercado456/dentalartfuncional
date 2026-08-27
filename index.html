@@ -692,19 +692,19 @@ function renderAppointments() {
             </div>
 
             <div class="mt-4 md:mt-0 flex items-center gap-1 bg-white/50 p-1 rounded-lg border border-slate-200/50 self-start md:self-center">
-                <button onclick="changeAppStatus(${app.id}, 'pendiente')" title="Marcar como Pendiente" 
+                <button onclick="changeAppStatus('${app.id}', 'pendiente')" title="Marcar como Pendiente" 
                     class="w-7 h-7 rounded-md flex items-center justify-center text-xs transition-colors ${app.status === 'pendiente' ? 'bg-amber-500 text-white' : 'hover:bg-slate-200 text-slate-500'}">
                     <i class="fa-solid fa-hourglass-start"></i>
                 </button>
-                <button onclick="changeAppStatus(${app.id}, 'en-sala')" title="Marcar en Sala de espera" 
+                <button onclick="changeAppStatus('${app.id}', 'en-sala')" title="Marcar en Sala de espera" 
                     class="w-7 h-7 rounded-md flex items-center justify-center text-xs transition-colors ${app.status === 'en-sala' ? 'bg-dental-blue text-white' : 'hover:bg-slate-200 text-slate-500'}">
                     <i class="fa-solid fa-user-clock"></i>
                 </button>
-                <button onclick="changeAppStatus(${app.id}, 'completado')" title="Marcar como Completado" 
+                <button onclick="changeAppStatus('${app.id}', 'completado')" title="Marcar como Completado" 
                     class="w-7 h-7 rounded-md flex items-center justify-center text-xs transition-colors ${app.status === 'completado' ? 'bg-emerald-600 text-white' : 'hover:bg-slate-200 text-slate-500'}">
                     <i class="fa-solid fa-check"></i>
                 </button>
-                <button onclick="deleteAppointment(${app.id})" title="Eliminar de la Agenda" 
+                <button onclick="deleteAppointment('${app.id}')" title="Eliminar de la Agenda" 
                     class="w-7 h-7 rounded-md flex items-center justify-center text-xs transition-colors text-rose-500 hover:bg-rose-500 hover:text-white">
                     <i class="fa-regular fa-trash-can"></i>
                 </button>
@@ -890,13 +890,13 @@ function renderTasks() {
 
             item.innerHTML = `
                 <div class="flex items-start gap-3 flex-1">
-                    <button onclick="toggleTask(${task.id})" class="mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center transition-all border-slate-300 hover:border-dental-teal bg-white">
+                    <button onclick="toggleTask('${task.id}')" class="mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center transition-all border-slate-300 hover:border-dental-teal bg-white">
                     </button>
                     <span class="text-sm text-slate-700 leading-tight">
                         ${task.text}
                     </span>
                 </div>
-                <button onclick="deleteTask(${task.id})" class="text-slate-400 hover:text-dental-coral p-1 ml-2 transition-colors">
+                <button onclick="deleteTask('${task.id}')" class="text-slate-400 hover:text-dental-coral p-1 ml-2 transition-colors">
                     <i class="fa-regular fa-trash-can text-xs"></i>
                 </button>
             `;
@@ -911,14 +911,14 @@ function renderTasks() {
 
         item.innerHTML = `
             <div class="flex items-start gap-3 flex-1">
-                <button onclick="toggleTask(${task.id})" class="mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center transition-all bg-emerald-600 border-emerald-600 text-white">
+                <button onclick="toggleTask('${task.id}')" class="mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center transition-all bg-emerald-600 border-emerald-600 text-white">
                     <i class="fa-solid fa-check text-[10px]"></i>
                 </button>
                 <span class="text-sm text-slate-500 leading-tight line-through">
                     ${task.text}
                 </span>
             </div>
-            <button onclick="deleteTask(${task.id})" class="text-slate-400 hover:text-dental-coral p-1 ml-2 transition-colors">
+            <button onclick="deleteTask('${task.id}')" class="text-slate-400 hover:text-dental-coral p-1 ml-2 transition-colors">
                 <i class="fa-regular fa-trash-can text-xs"></i>
             </button>
         `;
